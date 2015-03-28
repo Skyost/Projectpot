@@ -42,7 +42,7 @@
 			$settings = array(
 				'configVersion' => 1,
 				'metaTitle' => 'My Projectpot',
-				'metaDescription' => 'This is my projects\' pot.',
+				'metaDescription' => 'This is my Projectpot.',
 				'metaKeywords' => 'project,pot,projectpot',
 				'metaAuthor' => 'Skyost',
 				'adflyUse' => true,
