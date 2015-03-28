@@ -1,4 +1,4 @@
-# ![logo](https://raw.github.com/Skyost/Projectpot/assets/img/HoneyPot.png) Projectpot ![logo](https://raw.github.com/Skyost/Projectpot/assets/img/HoneyPot.png)
+# ![logo](https://raw.githubusercontent.com/Skyost/Projectpot/master/assets/img/HoneyPot.png) Projectpot ![logo](https://raw.githubusercontent.com/Skyost/Projectpot/master/assets/img/HoneyPot.png)
 *Projectpot is a simple project repository written in PHP and it does not need any database (uses JSON).*
 
 ## Instructions
