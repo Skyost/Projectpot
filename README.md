@@ -1,4 +1,4 @@
-# ![logo](https://raw.githubusercontent.com/Skyost/Projectpot/master/assets/img/HoneyPot.png) Projectpot ![logo](https://raw.githubusercontent.com/Skyost/Projectpot/master/assets/img/HoneyPot.png)
+# Projectpot
 *Projectpot is a simple project repository written in PHP and it does not need any database (uses JSON).*
 
 ## Instructions
@@ -18,3 +18,5 @@ Yes sir (not the admin panel though) !
 
 ## Special thanks
 - cdnjs (https://cdnjs.com/).
+
+![logo](https://raw.githubusercontent.com/Skyost/Projectpot/master/assets/img/HoneyPot.png)
