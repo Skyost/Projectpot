@@ -1,8 +1,11 @@
-table {
+#project-container {
 	margin-top: 1em;
-	margin-bottom: 1em;
 	overflow-x: auto;
 	overflow-y: scroll;
+}
+
+#project-container::-webkit-scrollbar { 
+    display: none; 
 }
 
 th {

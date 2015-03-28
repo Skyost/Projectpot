@@ -1,4 +1,6 @@
 <?php
+	error_reporting(E_ALL);
+	ini_set('display_errors', 1);
 	require('include/config.php');
 	require('include/functions.php');
 	if(isset($_COOKIE['pp_logout'])) {
@@ -36,7 +38,7 @@
 			include('include/adminarea.php');
 		}
 		else {
-			echo alert_message('Wrong username or password !', 'alert-danger');
+			echo message('Wrong username or password !', 'alert-danger');
 			delete_cookie('pp_username');
 			delete_cookie('pp_password');
 			include('include/loginform.php');

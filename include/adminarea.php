@@ -5,17 +5,17 @@
 	if(isset($_POST['method'])) {
 		if($_POST['method'] == 0 && isset($_POST['title']) && isset($_POST['description']) && isset($_POST['keywords']) && isset($_POST['author'])) {
 			$settings = merge($settings, 'settings', array(
-				'metaTitle' => htmlspecialchars($_POST['title'], ENT_SUBSTITUTE, 'UTF-8'),
-				'metaDescription' => htmlspecialchars($_POST['description'], ENT_SUBSTITUTE, 'UTF-8'),
-				'metaKeywords' => htmlspecialchars($_POST['keywords'], ENT_SUBSTITUTE, 'UTF-8'),
-				'metaAuthor' => htmlspecialchars($_POST['author'], ENT_SUBSTITUTE, 'UTF-8')
+				'metaTitle' => htmlspecialchars($_POST['title']),
+				'metaDescription' => htmlspecialchars($_POST['description']),
+				'metaKeywords' => htmlspecialchars($_POST['keywords']),
+				'metaAuthor' => htmlspecialchars($_POST['author'])
 			), 'Successfully changed website\'s meta !');
 		}
 		else if($_POST['method'] == 1) {
-			$settings = merge($settings, 'settings', isset($_POST['enable']) ? array('adflyUse' => true, 'adflyId' => htmlspecialchars($_POST['id'], ENT_SUBSTITUTE, 'UTF-8')) : array('adflyUse' => false), 'Successfully changed adf.ly preferences !');
+			$settings = merge($settings, 'settings', isset($_POST['enable']) ? array('adflyUse' => true, 'adflyId' => htmlspecialchars($_POST['id'])) : array('adflyUse' => false), 'Successfully changed adf.ly preferences !');
 		}
 		else if($_POST['method'] == 2) {
-			$categories = merge($categories, 'categories', array(htmlspecialchars($_POST['name'], ENT_SUBSTITUTE, 'UTF-8')), 'Category added !');
+			$categories = merge($categories, 'categories', array(htmlspecialchars($_POST['name'])), 'Category added !');
 		}
 		else if($_POST['method'] == 3) {
 			if(count($categories) == 1) {
@@ -42,14 +42,15 @@
 			finish($categories, 'categories', 'Category renamed.');
 		}
 		else if($_POST['method'] == 5) {
-			if(empty(parse_url($_POST['link'])['scheme'])) {
+			$parsed_url = parse_url($_POST['link']);
+			if(empty($parsed_url['scheme'])) {
 				$_POST['link'] = 'http://' . $_POST['link'];
 			}
 			$projects = merge($projects, 'projects', array(array(
-				'name' => htmlspecialchars($_POST['name'], ENT_SUBSTITUTE, 'UTF-8'),
-				'description' => htmlspecialchars($_POST['description'], ENT_SUBSTITUTE, 'UTF-8'),
-				'link' => htmlspecialchars($_POST['link'], ENT_SUBSTITUTE, 'UTF-8'),
-				'category' => htmlspecialchars($_POST['category'], ENT_SUBSTITUTE, 'UTF-8')
+				'name' => htmlspecialchars($_POST['name']),
+				'description' => htmlspecialchars($_POST['description']),
+				'link' => htmlspecialchars($_POST['link']),
+				'category' => htmlspecialchars($_POST['category'])
 			)), 'Project added !', true, true);
 		}
 		else if($_POST['method'] == 6) {
@@ -57,10 +58,10 @@
 		}
 		else if($_POST['method'] == 7) {
 			$projects[$_POST['project']] = array(
-				'name' => htmlspecialchars($_POST['name'], ENT_SUBSTITUTE, 'UTF-8'),
-				'description' => htmlspecialchars($_POST['description'], ENT_SUBSTITUTE, 'UTF-8'),
-				'link' => htmlspecialchars($_POST['link'], ENT_SUBSTITUTE, 'UTF-8'),
-				'category' => htmlspecialchars($_POST['category'], ENT_SUBSTITUTE, 'UTF-8')
+				'name' => htmlspecialchars($_POST['name']),
+				'description' => htmlspecialchars($_POST['description']),
+				'link' => htmlspecialchars($_POST['link']),
+				'category' => htmlspecialchars($_POST['category'])
 			);
 			finish($projects, 'projects', 'Project edited !', true);
 		}
@@ -312,7 +313,7 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li><a id="update-link" target="_blank" href="<?='https://github.com/' . PP_APP_AUTHOR . '/' . PP_APP_NAME?>"><img src="assets/img/loading.gif"/> <i>Checking for updates...</i></a></li>
+					<li><a id="update-link" target="_blank" href="<?='https://github.com/' . PP_APP_AUTHOR . '/' . PP_APP_NAME . '/releases'?>"><img src="assets/img/loading.gif"/> <i>Checking for updates...</i></a></li>
 					<li><a id="logout-link" href="#"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Logout</a></li>
 				</ul>
 			</div>

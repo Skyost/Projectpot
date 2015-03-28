@@ -41,7 +41,7 @@
 ?>
 			</div>
 		</div>
-		<div class="container">
+		<div class="container" id="project-container">
 			<table class="table table-bordered table-hover">
 				<thead>
 					<tr><th>Project's name</th><th>Link</th></tr>
@@ -83,9 +83,10 @@
 		</div>
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="assets/divas-cookies/divascookies.min.css">
+		<script type="text/javascript" src="assets/divas-cookies/jquery.divascookies.min.js"></script>
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 		<script type="text/javascript" src="assets/js/index.js"></script>
-		<script type="text/javascript" id="cookiebanner" src="assets/js/cookiebanner.min.js"></script>
 <?php
 	if($settings['adflyUse']) {
 ?>
