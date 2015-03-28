@@ -8,6 +8,9 @@
 	}*/
 	
 	function load_categories() {
+		if(!file_exists('json') || !is_dir('json')) {
+			mkdir('json');
+		}
 		if(file_exists('json/categories.json')) {
 			$categories = json_decode(file_get_contents('json/categories.json'), true);
 		}
@@ -19,6 +22,9 @@
 	}
 	
 	function load_projects() {
+		if(!file_exists('json') || !is_dir('json')) {
+			mkdir('json');
+		}
 		if(file_exists('json/projects.json')) {
 			$projects = json_decode(file_get_contents('json/projects.json'), true);
 		}
@@ -35,6 +41,9 @@
 	}
 
 	function load_settings() {
+		if(!file_exists('json') || !is_dir('json')) {
+			mkdir('json');
+		}
 		if(file_exists('json/settings.json')) {
 			$settings = json_decode(file_get_contents('json/settings.json'), true);
 		}
