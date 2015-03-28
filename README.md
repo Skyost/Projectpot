@@ -7,6 +7,10 @@ Download the latest release [here](https://github.com/Skyost/Projectpot/releases
 **Note :** The first time you use this software, the admin username is **admin** and the admin password is **admin**.
 It is strongly advised that you change this as quick as possible (check the file *include\config.php*) !
 
+## Screenshots
+![interface](http://i.imgur.com/gScA3Ff.png)
+![admin panel](http://i.imgur.com/xZYgO10.png)
+
 ## Demo
 [Yes sir](http://paste.skyost.eu) (not the admin panel though) !
 
