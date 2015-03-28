@@ -1,0 +1,28 @@
+.expander {
+	cursor: pointer;
+}
+
+.expander:hover {
+    text-decoration: none;
+}
+
+.shifted {
+	margin-top: 1em;
+	margin-left: 1em;
+}
+
+#update-link {
+	font-weight: bold;
+}
+
+#update-link.update-available {
+	color: #2980b9;
+}
+
+#update-link.update-noupdate {
+	color: #2ecc71;
+}
+
+#update-link.update-error {
+	color: #c0392b;
+}

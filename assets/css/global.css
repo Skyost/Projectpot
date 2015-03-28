@@ -1,0 +1,16 @@
+body {
+	margin: 1em;
+	padding-bottom: 60px;
+}
+
+h1 {
+	font-weight: bold;
+}
+
+img.title {
+	height: 36px;
+}
+
+.centered {
+	text-align: center;
+}
