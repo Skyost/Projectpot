@@ -1,17 +1,21 @@
 <?php
 	require('include/config.php');
 	require('include/functions.php');
+	$settings = load_settings();
+	include('include/languages/' . $settings['metaLanguage'] . '.php');
+	/*if(PP_TRANSLATION_VERSION < 1) {
+		die('Please update your translation !');
+	}*/
 	$categories = load_categories();
 	$categories_num = count($categories);
 	if($categories_num == 0) {
-		die('No category.');
+		die(PP_NOCATEGORY);
 	}
 	$projects = load_projects();
-	$settings = load_settings();
 	$adfly = $settings['adflyUse'] && (isset($_COOKIE['pp_adfly']) ? $_COOKIE['pp_adfly'] : true);
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="<?=$settings['metaLanguage']?>">
 	<head>
 		<title><?=$settings['metaTitle']?></title>
 		<meta name="description" content="<?=$settings['metaDescription']?>">
@@ -44,7 +48,7 @@
 		<div class="container" id="project-container">
 			<table class="table table-bordered table-hover">
 				<thead>
-					<tr><th>Project's name</th><th>Link</th></tr>
+					<?='<tr><th>' . PP_PROJECT_NAME . '</th><th>' . PP_PROJECT_LINK . '</th></tr>' . PHP_EOL?>
 				</thead>
 <?php
 	for($i = 0; $i < $categories_num; $i++) {
@@ -57,7 +61,7 @@
 			}
 		}
 		if($projects_in_category++ == 0) {
-			echo '					<tr><td>Nothing here.</td><td>Here either.</td></tr>' . PHP_EOL;
+			echo '					<tr><td>' . PP_NOPROJECT . '</td><td>' . PP_NOLINK . '</td></tr>' . PHP_EOL;
 		}
 		echo '				</tbody>' . PHP_EOL;
 	}
@@ -75,8 +79,8 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li><a target="_blank" href="<?='https://github.com/' . PP_APP_AUTHOR . '/' . PP_APP_NAME?>"><img src="assets/favicon.ico"/> <strong>Powered by <?=PP_APP_NAME . ' v' . PP_APP_VERSION . ' by ' . PP_APP_AUTHOR?></strong></a></li>
-					<li><a href="admin.php"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Admin</a></li>
+					<li><a target="_blank" href="<?='https://github.com/' . PP_APP_AUTHOR . '/' . PP_APP_NAME?>"><img src="assets/favicon.ico"/> <strong><?=PP_POWEREDBY?></strong></a></li>
+					<li><a href="admin.php"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> <?=PP_ADMIN?></a></li>
 					<?=$settings['adflyUse'] ? '<li><a id="toggle-adfly" href="#"></a></li>' . PHP_EOL : PHP_EOL?>
 				</ul>
 			</div>
@@ -99,7 +103,7 @@
 					$.cookie('pp_adfly', '1');
 				}
 				adflyEnabled = $.cookie('pp_adfly') == '1';
-				toggleAdfly.html('<span class="glyphicon ' + (adflyEnabled ? 'glyphicon-minus" aria-hidden="true"></span> Disable' : 'glyphicon-plus" aria-hidden="true"></span> Enable') + ' adf.ly links');
+				toggleAdfly.html('<span class="glyphicon ' + (adflyEnabled ? 'glyphicon-minus" aria-hidden="true"></span> <?=htmlspecialchars(PP_DISABLE_ADFLY)?>' : 'glyphicon-plus" aria-hidden="true"></span> <?=PP_ENABLE_ADFLY?>'));
 			});
 			
 			toggleAdfly.click(function() {

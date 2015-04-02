@@ -1,29 +1,28 @@
 <?php
 	$categories = load_categories();
 	$projects = load_projects();
-	$settings = load_settings();
 	if(isset($_POST['method'])) {
-		if($_POST['method'] == 0 && isset($_POST['title']) && isset($_POST['description']) && isset($_POST['keywords']) && isset($_POST['author'])) {
+		if($_POST['method'] == 1 && isset($_POST['title']) && isset($_POST['description']) && isset($_POST['keywords']) && isset($_POST['author'])) {
 			$settings = merge($settings, 'settings', array(
 				'metaTitle' => htmlspecialchars($_POST['title']),
 				'metaDescription' => htmlspecialchars($_POST['description']),
 				'metaKeywords' => htmlspecialchars($_POST['keywords']),
-				'metaAuthor' => htmlspecialchars($_POST['author'])
-			), 'Successfully changed website\'s meta !');
-		}
-		else if($_POST['method'] == 1) {
-			$settings = merge($settings, 'settings', isset($_POST['enable']) ? array('adflyUse' => true, 'adflyId' => htmlspecialchars($_POST['id'])) : array('adflyUse' => false), 'Successfully changed adf.ly preferences !');
+				'metaAuthor' => htmlspecialchars($_POST['author']),
+				'metaLanguage' => htmlspecialchars($_POST['language'])
+			), PP_MESSAGE_METACHANGED);
 		}
 		else if($_POST['method'] == 2) {
-			$categories = merge($categories, 'categories', array(htmlspecialchars($_POST['name'])), 'Category added !');
+			$settings = merge($settings, 'settings', isset($_POST['enable']) ? array('adflyUse' => true, 'adflyId' => htmlspecialchars($_POST['id'])) : array('adflyUse' => false), PP_MESSAGE_ADFLYCHANGED);
 		}
 		else if($_POST['method'] == 3) {
+			$categories = merge($categories, 'categories', array(htmlspecialchars($_POST['name'])), PP_MESSAGE_CATEGORYADDED);
+		}
+		else if($_POST['method'] == 4) {
 			if(count($categories) == 1) {
-				echo(message('You cannot delete the last category !', 'alert-danger'));
+				echo(message(PP_MESSAGE_CANNOTREMOVE, 'alert-danger'));
 			}
 			else {
-				$categories = remove($categories, 'categories', $_POST['category'], 'Category removed.');
-				$categories_clone = array_merge(array(), $categories);
+				$categories = remove($categories, 'categories', $_POST['category'], PP_MESSAGE_CATEGORYREMOVED);
 				$projects_changed = false;
 				for($i = 0; $i < count($projects); $i++) {
 					if($projects[$i]['category'] != $_POST['category']) {
@@ -37,11 +36,11 @@
 				}
 			}
 		}
-		else if($_POST['method'] == 4) {
-			$categories[$_POST['category']] = $_POST['newname'];
-			finish($categories, 'categories', 'Category renamed.');
-		}
 		else if($_POST['method'] == 5) {
+			$categories[$_POST['category']] = $_POST['newname'];
+			finish($categories, 'categories', PP_MESSAGE_CATEGORYRENAMED);
+		}
+		else if($_POST['method'] == 6) {
 			$parsed_url = parse_url($_POST['link']);
 			if(empty($parsed_url['scheme'])) {
 				$_POST['link'] = 'http://' . $_POST['link'];
@@ -51,19 +50,19 @@
 				'description' => htmlspecialchars($_POST['description']),
 				'link' => htmlspecialchars($_POST['link']),
 				'category' => htmlspecialchars($_POST['category'])
-			)), 'Project added !', true, true);
-		}
-		else if($_POST['method'] == 6) {
-			$projects = remove($projects, 'projects', $_POST['project'], 'Project removed.');
+			)), PP_MESSAGE_PROJECTADDED, true, true);
 		}
 		else if($_POST['method'] == 7) {
+			$projects = remove($projects, 'projects', $_POST['project'], PP_MESSAGE_PROJECTREMOVED);
+		}
+		else if($_POST['method'] == 8) {
 			$projects[$_POST['project']] = array(
 				'name' => htmlspecialchars($_POST['name']),
 				'description' => htmlspecialchars($_POST['description']),
 				'link' => htmlspecialchars($_POST['link']),
 				'category' => htmlspecialchars($_POST['category'])
 			);
-			finish($projects, 'projects', 'Project edited !', true);
+			finish($projects, 'projects', PP_MESSAGE_PROJECTUPDATED, true);
 		}
 	}
 	$categories_num = count($categories);
@@ -117,67 +116,87 @@
 			</div>
 		</div>
 		<div class="container">
-			<h2><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Website configuration</h2>
-			<a for="website-container" collapsed="1" class="expander"><img src="assets/img/expand.png"/> Expand</a>
+			<h2><span class="glyphicon glyphicon-home" aria-hidden="true"></span> <?=PP_WEBSITE_CONFIGURATION?></h2>
+			<a for="website-container" collapsed="1" class="expander"><img src="assets/img/expand.png"/> <?=PP_EXPAND?></a>
 			<div id="website-container" class="shifted hidden">
 				<div class="container well">
-					<h3><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Site meta</h3>
+					<h3><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> <?=PP_WEBSITE_META?></h3>
 					<form action="admin.php" method="post">
 						<div class="form-group">
-							<label for="website-meta-title">Title</label>
-							<input id="website-meta-title" name="title" type="text" class="form-control" placeholder="Title" value="<?=$settings['metaTitle']?>">
+							<label for="website-meta-title"><?=PP_WEBSITE_TITLE?></label>
+							<input id="website-meta-title" name="title" type="text" class="form-control" placeholder="<?=htmlspecialchars(PP_WEBSITE_TITLE)?>" value="<?=$settings['metaTitle']?>">
 						</div>
 						<div class="form-group">
-							<label for="website-meta-description">Description</label>
-							<input id="website-meta-description" name="description" type="text" class="form-control" placeholder="Description" value="<?=$settings['metaDescription']?>">
+							<label for="website-meta-description"><?=PP_WEBSITE_DESCRIPTION?></label>
+							<input id="website-meta-description" name="description" type="text" class="form-control" placeholder="<?=htmlspecialchars(PP_WEBSITE_DESCRIPTION)?>" value="<?=$settings['metaDescription']?>">
 						</div>
 						<div class="form-group">
-							<label for="website-meta-keywords">Keywords</label>
-							<input id="website-meta-keywords" name="keywords" type="text" class="form-control" placeholder="Keywords" value="<?=$settings['metaKeywords']?>">
+							<label for="website-meta-keywords"><?=PP_WEBSITE_KEYWORDS?></label>
+							<input id="website-meta-keywords" name="keywords" type="text" class="form-control" placeholder="<?=htmlspecialchars(PP_WEBSITE_KEYWORDS)?>" value="<?=$settings['metaKeywords']?>">
 						</div>
 						<div class="form-group">
-							<label for="website-meta-author">Author</label>
-							<input id="website-meta-author" name="author" type="text" class="form-control" placeholder="Author" value="<?=$settings['metaAuthor']?>">
+							<label for="website-meta-author"><?=PP_WEBSITE_AUTHOR?></label>
+							<input id="website-meta-author" name="author" type="text" class="form-control" placeholder="<?=htmlspecialchars(PP_WEBSITE_AUTHOR)?>" value="<?=$settings['metaAuthor']?>">
 						</div>
-						<input name="method" type="hidden" value="0">
-						<button type="submit" class="btn btn-primary">Update !</button>
+						<div class="form-group">
+							<label for="website-meta-language"><?=PP_WEBSITE_LANGUAGE?></label>
+							<select id="website-meta-language" name="language" class="form-control">
+<?php
+	$languages = array_diff(scandir('include/languages/'), array('..', '.'));
+	if(in_array($settings['metaLanguage'] . '.php', $languages)) {
+		echo '								<option>' . $settings['metaLanguage'] . '</option>' . PHP_EOL;
+	}
+	foreach($languages as $language) {
+		if(str_endswith($language, '.php')) {
+			$language = str_replace('.php', '', $language);
+			if($language == $settings['metaLanguage']) {
+				continue;
+			}
+			echo '								<option>' . $language . '</option>' . PHP_EOL;
+		}
+	}
+?>
+							</select>
+						</div>
+						<input name="method" type="hidden" value="1">
+						<button type="submit" class="btn btn-primary"><?=PP_UPDATE?></button>
 					</form>
 				</div>
 				<div class="container well">
-					<h3><span class="glyphicon glyphicon-usd" aria-hidden="true"></span> AdFly</h3>
+					<h3><span class="glyphicon glyphicon-usd" aria-hidden="true"></span> <?=PP_WEBSITE_ADFLY?></h3>
 					<form action="admin.php" method="post">
 						<div class="form-group">
-							<label for="website-adfly-enable">Enable</label>
+							<label for="website-adfly-enable"><?=PP_WEBSITE_ADFLY_ENABLE?></label>
 							<input id="website-adfly-enable" name="enable" type="checkbox" class="checkbox"<?=$settings['adflyUse'] ? ' checked="checked"' : ''?>>
 						</div>
 						<div class="form-group">
-							<label for="website-adfly-id">ID</label>
-							<input id="website-adfly-id" name="id" type="text" class="form-control" placeholder="ID" value="<?=$settings['adflyId']?>">
+							<label for="website-adfly-id"><?=PP_WEBSITE_ADFLY_ID?></label>
+							<input id="website-adfly-id" name="id" type="text" class="form-control" placeholder="<?=htmlspecialchars(PP_WEBSITE_ADFLY_ID)?>" value="<?=$settings['adflyId']?>">
 						</div>
-						<input name="method" type="hidden" value="1">
-						<button type="submit" class="btn btn-primary">Update !</button>
+						<input name="method" type="hidden" value="2">
+						<button type="submit" class="btn btn-primary"><?=PP_UPDATE?></button>
 					</form>
 				</div>
 			</div>
-			<h2><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Categories</h2>
-			<a for="categories-container" collapsed="1" class="expander"><img src="assets/img/expand.png"/> Expand</a>
+			<h2><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> <?=PP_CATEGORIES?></h2>
+			<a for="categories-container" collapsed="1" class="expander"><img src="assets/img/expand.png"/> <?=PP_EXPAND?></a>
 			<div id="categories-container" class="shifted hidden">
 				<div class="container well">
-					<h3><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a category</h3>
+					<h3><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?=PP_CATEGORIES_ADD?></h3>
 					<form action="admin.php" method="post">
 						<div class="form-group">
-							<label for="categories-add-name">Name</label>
-							<input id="categories-add-name" name="name" type="text" class="form-control" placeholder="Name">
+							<label for="categories-add-name"><?=PP_CATEGORIES_NAME?></label>
+							<input id="categories-add-name" name="name" type="text" class="form-control" placeholder="<?=htmlspecialchars(PP_CATEGORIES_NAME)?>">
 						</div>
-						<input name="method" type="hidden" value="2">
-						<button type="submit" class="btn btn-success">Add !</button>
+						<input name="method" type="hidden" value="3">
+						<button type="submit" class="btn btn-success"><?=PP_ADD?></button>
 					</form>
 				</div>
 				<div class="container well">
-					<h3><span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Remove a category</h3>
+					<h3><span class="glyphicon glyphicon-minus" aria-hidden="true"></span> <?=PP_CATEGORIES_REMOVE?></h3>
 					<form action="admin.php" method="post">
 						<div class="form-group">
-							<label for="categories-remove-category">Category</label>
+							<label for="categories-remove-category"><?=PP_CATEGORIES_CATEGORY?></label>
 							<select id="categories-remove-category" name="category" class="form-control">
 <?php
 	for($i = 0; $i < $categories_num; $i++) {
@@ -186,15 +205,15 @@
 ?>
 							</select>
 						</div>
-						<input name="method" type="hidden" value="3">
-						<button type="submit" class="btn btn-danger">Remove !</button>
+						<input name="method" type="hidden" value="4">
+						<button type="submit" class="btn btn-danger"><?=PP_REMOVE?></button>
 					</form>
 				</div>
 				<div class="container well">
-					<h3><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Rename a category</h3>
+					<h3><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> <?=PP_CATEGORIES_RENAME?></h3>
 					<form action="admin.php" method="post">
 						<div class="form-group">
-							<label for="categories-rename-category">Category</label>
+							<label for="categories-rename-category"><?=PP_CATEGORIES_CATEGORY?></label>
 							<select id="categories-rename-category" name="category" class="form-control">
 <?php
 	for($i = 0; $i < $categories_num; $i++) {
@@ -204,26 +223,26 @@
 							</select>
 						</div>
 						<div class="form-group">
-							<label for="categories-rename-newname">New name</label>
-							<input id="categories-rename-newname" name="newname" type="text" class="form-control" placeholder="New name">
+							<label for="categories-rename-newname"><?=PP_CATEGORIES_RENAME_NEWNAME?></label>
+							<input id="categories-rename-newname" name="newname" type="text" class="form-control" placeholder="<?=htmlspecialchars(PP_CATEGORIES_RENAME_NEWNAME)?>">
 						</div>
-						<input name="method" type="hidden" value="4">
-						<button type="submit" class="btn btn-primary">Rename !</button>
+						<input name="method" type="hidden" value="5">
+						<button type="submit" class="btn btn-primary"><?=PP_UPDATE?></button>
 					</form>
 				</div>
 			</div>
-			<h2><span class="glyphicon glyphicon-th" aria-hidden="true"></span> Projects</h2>
-			<a for="projects-container" collapsed="1" class="expander"><img src="assets/img/expand.png"/> Expand</a>
+			<h2><span class="glyphicon glyphicon-th" aria-hidden="true"></span> <?=PP_PROJECTS?></h2>
+			<a for="projects-container" collapsed="1" class="expander"><img src="assets/img/expand.png"/> <?=PP_EXPAND?></a>
 			<div id="projects-container" class="shifted hidden">
 				<div class="container well">
-					<h3><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create a project</h3>
+					<h3><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?=PP_PROJECTS_ADD?></h3>
 					<form action="admin.php" method="post">
 						<div class="form-group">
-							<label for="projects-create-name">Name</label>
-							<input id="projects-create-name" name="name" type="text" class="form-control" placeholder="Name">
+							<label for="projects-create-name"><?=PP_PROJECTS_NAME?></label>
+							<input id="projects-create-name" name="name" type="text" class="form-control" placeholder="<?=htmlspecialchars(PP_PROJECTS_NAME)?>">
 						</div>
 						<div class="form-group">
-							<label for="projects-create-category">Category</label>
+							<label for="projects-create-category"><?=PP_PROJECTS_CATEGORY?></label>
 							<select id="projects-create-category" name="category" class="form-control">
 <?php
 	for($i = 0; $i < $categories_num; $i++) {
@@ -233,22 +252,22 @@
 							</select>
 						</div>
 						<div class="form-group">
-							<label for="projects-create-link">Link</label>
-							<input id="projects-create-link" name="link" type="text" class="form-control" placeholder="Link">
+							<label for="projects-create-link"><?=PP_PROJECTS_LINK?></label>
+							<input id="projects-create-link" name="link" type="text" class="form-control" placeholder="<?=htmlspecialchars(PP_PROJECTS_LINK)?>">
 						</div>
 						<div class="form-group">
-							<label for="projects-create-description">Description</label>
+							<label for="projects-create-description"><?=PP_PROJECTS_DESCRIPTION?></label>
 							<textarea class="jquery-te" id="projects-create-description" name="description"></textarea>
 						</div>
-						<input name="method" type="hidden" value="5">
-						<button type="submit" class="btn btn-success">Create !</button>
+						<input name="method" type="hidden" value="6">
+						<button type="submit" class="btn btn-success"><?=PP_ADD?></button>
 					</form>
 				</div>
 				<div class="container well">
-					<h3><span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Remove a project</h3>
+					<h3><span class="glyphicon glyphicon-minus" aria-hidden="true"></span> <?=PP_PROJECTS_REMOVE?></h3>
 					<form action="admin.php" method="post">
 						<div class="form-group">
-							<label for="projects-remove-name">Project</label>
+							<label for="projects-remove-name"><?=PP_PROJECTS_PROJECT?></label>
 							<select id="projects-remove-name" name="project" class="form-control">
 <?php
 	for($i = 0; $i < $projects_num; $i++) {
@@ -257,15 +276,15 @@
 ?>
 							</select>
 						</div>
-						<input name="method" type="hidden" value="6">
-						<button type="submit" class="btn btn-danger">Remove !</button>
+						<input name="method" type="hidden" value="7">
+						<button type="submit" class="btn btn-danger"><?=PP_REMOVE?></button>
 					</form>
 				</div>
 				<div class="container well">
-					<h3><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit a project</h3>
+					<h3><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> <?=PP_PROJECTS_EDIT?></h3>
 					<form action="admin.php" method="post">
 						<div class="form-group">
-							<label for="projects-edit-oldname">Project</label>
+							<label for="projects-edit-oldname"><?=PP_PROJECTS_PROJECT?></label>
 							<select id="projects-edit-oldname" name="project" class="form-control">
 <?php
 	for($i = 0; $i < $projects_num; $i++) {
@@ -275,11 +294,11 @@
 							</select>
 						</div>
 						<div class="form-group">
-							<label for="projects-edit-newname">New name</label>
-							<input id="projects-edit-newname" name="name" type="text" class="form-control" placeholder="New name">
+							<label for="projects-edit-newname"><?=PP_PROJECTS_NAME?></label>
+							<input id="projects-edit-newname" name="name" type="text" class="form-control" placeholder="<?=htmlspecialchars(PP_PROJECTS_NAME)?>">
 						</div>
 						<div class="form-group">
-							<label for="projects-edit-newcategory">New category</label>
+							<label for="projects-edit-newcategory"><?=PP_PROJECTS_CATEGORY?></label>
 							<select id="projects-edit-newcategory" name="category" class="form-control">
 <?php
 	for($i = 0; $i < $categories_num; $i++) {
@@ -289,15 +308,15 @@
 							</select>
 						</div>
 						<div class="form-group">
-							<label for="projects-edit-newlink">New link</label>
-							<input id="projects-edit-newlink" name="link" type="text" class="form-control" placeholder="New link">
+							<label for="projects-edit-newlink"><?=PP_PROJECTS_LINK?></label>
+							<input id="projects-edit-newlink" name="link" type="text" class="form-control" placeholder="<?=htmlspecialchars(PP_PROJECTS_LINK)?>">
 						</div>
 						<div class="form-group">
-							<label for="projects-edit-newdescription">New description</label>
+							<label for="projects-edit-newdescription"><?=PP_PROJECTS_DESCRIPTION?></label>
 							<textarea class="jquery-te" id="projects-edit-newdescription" name="description"></textarea>
 						</div>
-						<input name="method" type="hidden" value="7">
-						<button type="submit" class="btn btn-primary">Edit !</button>
+						<input name="method" type="hidden" value="8">
+						<button type="submit" class="btn btn-primary"><?=PP_UPDATE?></button>
 					</form>
 				</div>
 			</div>
@@ -313,8 +332,8 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li><a id="update-link" target="_blank" href="<?='https://github.com/' . PP_APP_AUTHOR . '/' . PP_APP_NAME . '/releases'?>"><img src="assets/img/loading.gif"/> <i>Checking for updates...</i></a></li>
-					<li><a id="logout-link" href="#"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Logout</a></li>
+					<li><a id="update-link" target="_blank" href="<?='https://github.com/' . PP_APP_AUTHOR . '/' . PP_APP_NAME . '/releases'?>"><img src="assets/img/loading.gif"/> <i><?=PP_UPDATE_CHECKING?></i></a></li>
+					<li><a id="logout-link" href="#"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> <?=PP_LOGOUT?></a></li>
 				</ul>
 			</div>
 		</div>
@@ -329,15 +348,29 @@
 				var remoteVersion = $.trim(data);
 				if(cmpVersion('<?=PP_APP_VERSION?>', remoteVersion) == -1) {
 					updateLink.addClass('update-available');
-					updateLink.html('<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> An update is available (v' + remoteVersion + ')');
+					updateLink.html('<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> <?=str_replace('/version/', '\' + remoteVersion + \'', PP_UPDATE_AVAILABLE)?>');
 				}
 				else {
 					updateLink.addClass('update-noupdate');
-					updateLink.html('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> You have the latest version (v' + remoteVersion + ')');
+					updateLink.html('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> <?=str_replace('/version/', '\' + remoteVersion + \'', PP_UPDATE_NOUPDATE)?>');
 				}
 			});
 			request.fail(function() {
 				updateLink.addClass('update-error');
-				updateLink.html('<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> An error occurred while checking for updates');
+				updateLink.html('<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> <?=PP_UPDATE_ERROR?>');
+			});
+			
+			$('.expander').click(function() {
+				if($(this).attr('collapsed') == 1) {
+					$(this).text('<?=PP_COLLAPSE?>');
+					$(this).attr('collapsed', 0);
+					$(this).prepend('<img src="assets/img/collapse.png"/> ');
+				}
+				else {
+					$(this).text('<?=PP_EXPAND?>');
+					$(this).attr('collapsed', 1);
+					$(this).prepend('<img src="assets/img/expand.png"/> ');
+				}
+				$('#' + $(this).attr('for')).toggleClass('hidden');
 			});
 		</script>

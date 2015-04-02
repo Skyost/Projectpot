@@ -1,5 +1,3 @@
-// EVERYTHING NEEDED BY THE ADMIN PANEL :
-
 $(document).ready(function() {
 	$('.jquery-te').jqte();
 	$('#projects-edit-oldname').change(function() {
@@ -15,20 +13,6 @@ $('#logout-link').click(function() {
 	location.reload();
 });
 
-$('.expander').click(function() {
-	if($(this).attr('collapsed') == 1) {
-		$(this).text('Collapse');
-		$(this).attr('collapsed', 0);
-		$(this).prepend('<img src="assets/img/collapse.png"/> ');
-	}
-	else {
-		$(this).text('Expand');
-		$(this).attr('collapsed', 1);
-		$(this).prepend('<img src="assets/img/expand.png"/> ');
-	}
-	$('#' + $(this).attr('for')).toggleClass('hidden');
-});
-
 function updateEditAreas() {
 	var project = $.parseJSON(projects[$('#projects-edit-oldname').val()]);
 	$('#projects-edit-newname').val(project['name']);
@@ -37,8 +21,7 @@ function updateEditAreas() {
 	$('#projects-edit-newdescription').jqteVal(project['description']);
 }
 
-// CHECKING FOR UPDATES : (http://stackoverflow.com/a/7717160/3608831)
-
+// Comparing versions (http://stackoverflow.com/a/7717160/3608831).
 function cmpVersion(a, b) {
 	var i, cmp, len, re = /(\.0)+[^\.]*$/;
 	a = (a + '').replace(re, '').split('.');

@@ -46,14 +46,22 @@
 		}
 		if(file_exists('json/settings.json')) {
 			$settings = json_decode(file_get_contents('json/settings.json'), true);
+			if($settings['configVersion'] < 2) {
+				$settings = array_merge($settings, array(
+					'configVersion' => 2,
+					'metaLanguage' => 'en_US'
+				));
+				file_put_contents('json/settings.json', json_encode($settings));
+			}
 		}
 		else {
 			$settings = array(
-				'configVersion' => 1,
+				'configVersion' => 2,
 				'metaTitle' => 'My Projectpot',
 				'metaDescription' => 'This is my Projectpot.',
 				'metaKeywords' => 'project,pot,projectpot',
 				'metaAuthor' => 'Skyost',
+				'metaLanguage' => 'en_US',
 				'adflyUse' => true,
 				'adflyId' => 549897
 			);
@@ -68,10 +76,18 @@
 	}
 	
 	function title($title) {
-		return '<h1><img class="title" src="assets/img/HoneyPot.png"/> ' . $title . ' <img class="title" src="assets/img/HoneyPot.png"/></h1>';
+		return '<h1><img class="title" src="assets/img/HoneyPot.png"/> ' . $title . ' <img class="title" src="assets/img/HoneyPot.png"/></h1>' . PHP_EOL;
 	}
 	
 	function message($message, $type) {
 		return '<div class="container alert ' . $type . ' alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' . $message . '</div>' . PHP_EOL;
+	}
+	
+	function str_endswith($haystack, $needle) {
+		$length = strlen($needle);
+		if($length == 0) {
+			return true;
+		}
+		return(substr($haystack, -$length) === $needle);
 	}
 ?>

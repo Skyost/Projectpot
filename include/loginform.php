@@ -6,14 +6,14 @@
 		<div class="container">
 			<form action="admin.php" method="post">
 				<div class="form-group">
-					<label for="username">Username</label>
-					<input name="username" type="text" class="form-control" placeholder="Username">
+					<label for="username"><?=PP_USERNAME?></label>
+					<input name="username" type="text" class="form-control" placeholder="<?=htmlspecialchars(PP_USERNAME)?>">
 				</div>
 				<div class="form-group">
-					<label for="password">Password</label>
-					<input name="password" type="password" class="form-control" placeholder="Password">
+					<label for="password"><?=PP_PASSWORD?></label>
+					<input name="password" type="password" class="form-control" placeholder="<?=htmlspecialchars(PP_PASSWORD)?>">
 				</div>
 				<input name="method" type="hidden" value="0">
-				<button type="submit" class="btn btn-primary">Login !</button>
+				<button type="submit" class="btn btn-primary"><?=PP_LOGIN?></button>
 			</form>
 		</div>

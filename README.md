@@ -1,5 +1,6 @@
 # Projectpot
-*Projectpot is a simple project repository written in PHP and it does not need any database (uses JSON).*
+*Projectpot is just like a honeypot, but for your projects.
+It is a simple project repository written in PHP and it does not need any database (uses JSON).*
 
 ## Instructions
 Download the latest release [here](https://github.com/Skyost/Projectpot/releases) and uncompress it on your server. That's all !
