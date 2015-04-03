@@ -340,6 +340,7 @@
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-te/1.4.0/jquery-te.min.js"></script>
 		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-te/1.4.0/jquery-te.min.css">
+		<script type="text/javascript" src="assets/js/global.js"></script>
 		<script type="text/javascript" src="assets/js/adminarea.js"></script>
 		<script type="text/javascript">
 			var updateLink = $('#update-link');

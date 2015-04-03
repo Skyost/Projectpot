@@ -90,6 +90,7 @@
 		<link rel="stylesheet" href="assets/divas-cookies/divascookies.min.css">
 		<script type="text/javascript" src="assets/divas-cookies/jquery.divascookies.min.js"></script>
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+		<script type="text/javascript" src="assets/js/global.js"></script>
 		<script type="text/javascript" src="assets/js/index.js"></script>
 <?php
 	if($settings['adflyUse']) {
