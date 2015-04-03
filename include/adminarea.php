@@ -344,8 +344,8 @@
 		<script type="text/javascript">
 			var updateLink = $('#update-link');
 			
-			var request = $.get('<?='https://cdn.rawgit.com/' . PP_APP_AUTHOR . '/' . PP_APP_NAME . '/master/version.update'?>', function(data) {
-				var remoteVersion = $.trim(data);
+			var request = $.get('https://api.github.com/repos/<?=PP_APP_AUTHOR . '/' . PP_APP_NAME . '/contents/version.update'?>', function(data) {
+				var remoteVersion = $.trim(window.atob(data['content']));
 				if(cmpVersion('<?=PP_APP_VERSION?>', remoteVersion) == -1) {
 					updateLink.addClass('update-available');
 					updateLink.html('<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> <?=str_replace('/version/', '\' + remoteVersion + \'', PP_UPDATE_AVAILABLE)?>');

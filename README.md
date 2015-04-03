@@ -19,6 +19,7 @@ It is strongly advised that you change this as quick as possible (check the file
 - Bootstrap (http://getbootstrap.com/).
 - jQuery (https://jquery.com/).
 - Plugins for jQuery : cookie (http://plugins.jquery.com/cookie/), text editor (http://jqueryte.com/) and Divas Cookies (http://www.codingdivas.net/divascookies/).
+- GitHub API (https://api.github.com/).
 
 ## Special thanks
 - cdnjs (https://cdnjs.com/).
