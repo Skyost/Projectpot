@@ -1,13 +1,23 @@
+var cookieValidated;
+
 $(document).ready(function() {
-	$('#project-container').height($(window).height() - 275);
-	$.DivasCookies({
-		cookiePolicyLink: 'http://www.aboutcookies.org/',
-		cookiePolicyLinkText: 'What are those delicious things ?'	
-	});
+	if($.cookie('pp_cookie') == undefined) {
+		$.cookie('pp_cookie', '0');
+	}
+	cookieValidated = $.cookie('pp_cookie') == '1';
+	if(!cookieValidated) {
+		$(document.body).prepend('<div style="text-align: center;" class="container alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close" id="cookie-button"><span aria-hidden="true">&times;</span></button>This website is using cookies ! <a target="_blank" href="http://www.aboutcookies.org/">What are those delicious things ?</a></div>');
+		$('#cookie-button').click(function() {
+			$.cookie('pp_cookie', '1');
+			cookieValidated = true;
+			resizeContainer();
+		});
+	}
+	resizeContainer();
 });
 
 $(window).resize(function() {
-	$('#project-container').height($(window).height() - 275);
+	resizeContainer();
 });
 
 $('.btn').click(function() {
@@ -26,3 +36,7 @@ $('.a-description').click(function() {
 	$('#modal-text').html($(this).attr('description'));
 	$('#modal').modal();
 });
+
+function resizeContainer() {
+	$('#project-container').height($(window).height() - 275 - (cookieValidated ? 0 : 75));
+}
