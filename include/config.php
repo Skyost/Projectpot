@@ -9,6 +9,6 @@
 		DON'T EDIT ANYTHING AFTER THIS LINE !
 	*/
 	define('PP_APP_NAME', 'Projectpot');
-	define('PP_APP_VERSION', '0.2.1');
+	define('PP_APP_VERSION', '0.2.2');
 	define('PP_APP_AUTHOR', 'Skyost');
 ?>
