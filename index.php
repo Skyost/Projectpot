@@ -3,9 +3,9 @@
 	require('include/functions.php');
 	$settings = load_settings();
 	include('include/languages/' . $settings['metaLanguage'] . '.php');
-	/*if(PP_TRANSLATION_VERSION < 1) {
-		die('Please update your translation !');
-	}*/
+	if(PP_TRANSLATION_VERSION < 2) {
+		die('Please update your translation ! Otherwise, you will get a lot of error messages. Check "https://github.com/' . PP_APP_AUTHOR . '/' . Projectpot . '/tree/master/include/languages".');
+	}
 	$categories = load_categories();
 	$categories_num = count($categories);
 	if($categories_num == 0) {
@@ -57,7 +57,7 @@
 		foreach($projects as $project) {
 			if($project['category'] == $i) {
 				$projects_in_category++;
-				echo '					<tr><td class="a-description" description="' . $project['description'] . '">' . $project['name'] . '</td><td><a target="_blank" href="' . ($adfly ? 'http://adf.ly/' . $settings['adflyId'] . '/' : '') . $project['link'] . '">' . $project['link'] . '</a></td></tr>' . PHP_EOL;
+				echo '					<tr><td class="a-description" category="' . $i . '" description="' . $project['description'] . '">' . $project['name'] . '</td><td><a target="_blank" href="goto.php?category=' . $i . '&project=' . $project['name'] . '&adfly=' . $adfly . '">' . $project['link'] . '</a></td></tr>' . PHP_EOL;
 			}
 		}
 		if($projects_in_category++ == 0) {

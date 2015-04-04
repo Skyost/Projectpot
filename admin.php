@@ -3,9 +3,9 @@
 	require('include/functions.php');
 	$settings = load_settings();
 	include('include/languages/' . $settings['metaLanguage'] . '.php');
-	/*if(PP_TRANSLATION_VERSION < 1) {
-		die('Please update your translation !');
-	}*/
+	if(PP_TRANSLATION_VERSION < 2) {
+		die('Please update your translation ! Otherwise, you will get a lot of error messages. Check "https://github.com/' . PP_APP_AUTHOR . '/' . Projectpot . '/tree/master/include/languages".');
+	}
 	if(isset($_COOKIE['pp_logout'])) {
 		delete_cookie('pp_logout');
 	}

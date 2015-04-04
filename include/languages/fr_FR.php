@@ -45,6 +45,11 @@
 	define('PP_PROJECTS_REMOVE', 'Supprimer un projet');
 	define('PP_PROJECTS_EDIT', 'Éditer un projet');
 	define('PP_PROJECTS_PROJECT', 'Projet');
+	define('PP_STATS', 'Statistiques');
+	define('PP_STATS_PROJECTSTATS', 'Statistiques du projet');
+	define('PP_STATS_PROJECTSTATS_DESCR', 'Clics sur la description du projet');
+	define('PP_STATS_PROJECTSTATS_LINK', 'Clics sur le lien du projet');
+	define('PP_STATS_PROJECT', 'Projet');
 	define('PP_ADD', 'Ajouter !');
 	define('PP_REMOVE', 'Supprimer !');
 	define('PP_UPDATE', 'Mettre à jour !');
@@ -59,13 +64,14 @@
 	define('PP_MESSAGE_ADFLYCHANGED', 'Paramètres adf.ly changés avec succès !');
 	define('PP_MESSAGE_CATEGORYADDED', 'Catégorie ajoutée !');
 	define('PP_MESSAGE_CATEGORYREMOVED', 'Catégorie supprimée.');
-	define('PP_MESSAGE_CANNOTREMOVE', 'Vous ne pouvez pas supprimer la dernière catégorie !');
 	define('PP_MESSAGE_CATEGORYRENAMED', 'Catégorie renommée.');
 	define('PP_MESSAGE_PROJECTADDED', 'Projet ajouté !');
 	define('PP_MESSAGE_PROJECTREMOVED', 'Projet supprimé.');
 	define('PP_MESSAGE_PROJECTUPDATED', 'Projet mis à jour !');
+	define('PP_MESSAGE_CANNOTREMOVE', 'Vous ne pouvez pas supprimer la dernière catégorie !');
+	define('PP_MESSAGE_SAMENAMEEXISTS', 'Un projet portant le même nom existe déjà dans cette catégorie.');
 	
 	// Ne modifiez pas cette ligne !
 	
-	define('PP_TRANSLATION_VERSION', 1);
+	define('PP_TRANSLATION_VERSION', 2);
 ?>

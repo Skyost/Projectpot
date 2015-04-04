@@ -41,28 +41,47 @@
 			finish($categories, 'categories', PP_MESSAGE_CATEGORYRENAMED);
 		}
 		else if($_POST['method'] == 6) {
-			$parsed_url = parse_url($_POST['link']);
-			if(empty($parsed_url['scheme'])) {
-				$_POST['link'] = 'http://' . $_POST['link'];
+			if(get_project($_POST['category'], $_POST['name']) != null) {
+				echo(message(PP_MESSAGE_SAMENAMEEXISTS, 'alert-danger'));
 			}
-			$projects = merge($projects, 'projects', array(array(
-				'name' => htmlspecialchars($_POST['name']),
-				'description' => htmlspecialchars($_POST['description']),
-				'link' => htmlspecialchars($_POST['link']),
-				'category' => htmlspecialchars($_POST['category'])
-			)), PP_MESSAGE_PROJECTADDED, true, true);
+			else {
+				$_POST['link'] = correct_link($_POST['link']);
+				$projects = merge($projects, 'projects', array(array(
+					'name' => htmlspecialchars($_POST['name']),
+					'description' => htmlspecialchars($_POST['description']),
+					'link' => htmlspecialchars($_POST['link']),
+					'category' => htmlspecialchars($_POST['category'])
+				)), PP_MESSAGE_PROJECTADDED, true, true);
+			}
 		}
 		else if($_POST['method'] == 7) {
 			$projects = remove($projects, 'projects', $_POST['project'], PP_MESSAGE_PROJECTREMOVED);
 		}
 		else if($_POST['method'] == 8) {
-			$projects[$_POST['project']] = array(
-				'name' => htmlspecialchars($_POST['name']),
-				'description' => htmlspecialchars($_POST['description']),
-				'link' => htmlspecialchars($_POST['link']),
-				'category' => htmlspecialchars($_POST['category'])
-			);
-			finish($projects, 'projects', PP_MESSAGE_PROJECTUPDATED, true);
+			if($_POST['old-category'] != $_POST['category']) {
+				foreach($projects as $project) {
+					if($project['name'] != $_POST['name']) {
+						continue;
+					}
+					echo(message(PP_MESSAGE_SAMENAMEEXISTS, 'alert-danger'));
+				}
+			}
+			else if($_POST['old-name'] != $_POST['name']) {
+				foreach($projects as $project) {
+					if(!($project['category'] == $_POST['category'] && $project['name'] != $_POST['old-name'] && $project['name'] == $_POST['name'])) {
+						continue;
+					}
+					echo(message(PP_MESSAGE_SAMENAMEEXISTS, 'alert-danger'));
+				}
+			}
+			else {
+				$
+				$projects[$_POST['project']]['name'] = htmlspecialchars($_POST['name']);
+				$projects[$_POST['project']]['description'] = htmlspecialchars($_POST['description']);
+				$projects[$_POST['project']]['link'] = htmlspecialchars(correct_link($_POST['link']));
+				$projects[$_POST['project']]['category'] = htmlspecialchars($_POST['category']);
+				finish($projects, 'projects', PP_MESSAGE_PROJECTUPDATED, true);
+			}
 		}
 	}
 	$categories_num = count($categories);
@@ -95,8 +114,11 @@
 		}
 	}
 	
-	function compare_projects_names($project_a, $project_b) {
-        return strcmp(strtolower($project_a['name']), strtolower($project_b['name']));
+	function correct_link($link) {
+		$parsed_url = parse_url($link);
+		if(empty($parsed_url['scheme'])) {
+			return 'http://' . $link;
+		}
 	}
 	
 	// echo(message('<strong>Be aware !</strong> Characters <strong>are not</strong> escaped. Be cautious about what you enter.', 'alert-warning'));
@@ -117,7 +139,7 @@
 		</div>
 		<div class="container">
 			<h2><span class="glyphicon glyphicon-home" aria-hidden="true"></span> <?=PP_WEBSITE_CONFIGURATION?></h2>
-			<a for="website-container" collapsed="1" class="expander"><img src="assets/img/expand.png"/> <?=PP_EXPAND?></a>
+			<a for="website-container" collapsed="1" class="expander"><span class="glyphicon glyphicon-expand" aria-hidden="true"></span> <?=PP_EXPAND?></a>
 			<div id="website-container" class="shifted hidden">
 				<div class="container well">
 					<h3><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> <?=PP_WEBSITE_META?></h3>
@@ -179,7 +201,7 @@
 				</div>
 			</div>
 			<h2><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> <?=PP_CATEGORIES?></h2>
-			<a for="categories-container" collapsed="1" class="expander"><img src="assets/img/expand.png"/> <?=PP_EXPAND?></a>
+			<a for="categories-container" collapsed="1" class="expander"><span class="glyphicon glyphicon-expand" aria-hidden="true"></span> <?=PP_EXPAND?></a>
 			<div id="categories-container" class="shifted hidden">
 				<div class="container well">
 					<h3><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?=PP_CATEGORIES_ADD?></h3>
@@ -232,7 +254,7 @@
 				</div>
 			</div>
 			<h2><span class="glyphicon glyphicon-th" aria-hidden="true"></span> <?=PP_PROJECTS?></h2>
-			<a for="projects-container" collapsed="1" class="expander"><img src="assets/img/expand.png"/> <?=PP_EXPAND?></a>
+			<a for="projects-container" collapsed="1" class="expander"><span class="glyphicon glyphicon-expand" aria-hidden="true"></span> <?=PP_EXPAND?></a>
 			<div id="projects-container" class="shifted hidden">
 				<div class="container well">
 					<h3><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?=PP_PROJECTS_ADD?></h3>
@@ -284,8 +306,8 @@
 					<h3><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> <?=PP_PROJECTS_EDIT?></h3>
 					<form action="admin.php" method="post">
 						<div class="form-group">
-							<label for="projects-edit-oldname"><?=PP_PROJECTS_PROJECT?></label>
-							<select id="projects-edit-oldname" name="project" class="form-control">
+							<label for="projects-edit-project"><?=PP_PROJECTS_PROJECT?></label>
+							<select id="projects-edit-project" name="project" class="form-control">
 <?php
 	for($i = 0; $i < $projects_num; $i++) {
 		echo '								<option value="' . $i . '">' . $projects[$i]['name'] . '</option>' . PHP_EOL;
@@ -316,8 +338,35 @@
 							<textarea class="jquery-te" id="projects-edit-newdescription" name="description"></textarea>
 						</div>
 						<input name="method" type="hidden" value="8">
+						<input id="projects-edit-oldcategory" name="old-category" type="hidden">
+						<input id="projects-edit-oldname" name="old-project" type="hidden">
 						<button type="submit" class="btn btn-primary"><?=PP_UPDATE?></button>
 					</form>
+				</div>
+			</div>
+			<h2><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> <?=PP_STATS?></h2>
+			<a for="statistics-container" collapsed="1" class="expander"><span class="glyphicon glyphicon-expand" aria-hidden="true"></span> <?=PP_EXPAND?></a>
+			<div id="statistics-container" class="shifted hidden">
+				<div class="container well">
+					<h3><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> <?=PP_STATS_PROJECTSTATS?></h3>
+					<div class="form-group">
+						<label for="statistics-projects-project"><?=PP_STATS_PROJECT?></label>
+						<select id="statistics-projects-project" class="form-control">
+<?php
+	for($i = 0; $i < $projects_num; $i++) {
+		echo '								<option value="' . $i . '">' . $projects[$i]['name'] . '</option>' . PHP_EOL;
+	}
+?>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="statistics-projects-projectclicks"><?=PP_STATS_PROJECTSTATS_DESCR?></label>
+						<input id="statistics-projects-projectclicks" type="text" class="form-control" readonly>
+					</div>
+					<div class="form-group">
+						<label for="statistics-projects-linkclicks"><?=PP_STATS_PROJECTSTATS_LINK?></label>
+						<input id="statistics-projects-linkclicks" type="text" class="form-control" readonly>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -363,14 +412,12 @@
 			
 			$('.expander').click(function() {
 				if($(this).attr('collapsed') == 1) {
-					$(this).text('<?=PP_COLLAPSE?>');
+					$(this).html('<span class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span> <?=PP_COLLAPSE?>');
 					$(this).attr('collapsed', 0);
-					$(this).prepend('<img src="assets/img/collapse.png"/> ');
 				}
 				else {
-					$(this).text('<?=PP_EXPAND?>');
+					$(this).html('<span class="glyphicon glyphicon-expand" aria-hidden="true"></span> <?=PP_EXPAND?>');
 					$(this).attr('collapsed', 1);
-					$(this).prepend('<img src="assets/img/expand.png"/> ');
 				}
 				$('#' + $(this).attr('for')).toggleClass('hidden');
 			});

@@ -8,9 +8,7 @@
 	}*/
 	
 	function load_categories() {
-		if(!file_exists('json') || !is_dir('json')) {
-			mkdir('json');
-		}
+		check_json_dir();
 		if(file_exists('json/categories.json')) {
 			$categories = json_decode(file_get_contents('json/categories.json'), true);
 		}
@@ -22,9 +20,7 @@
 	}
 	
 	function load_projects() {
-		if(!file_exists('json') || !is_dir('json')) {
-			mkdir('json');
-		}
+		check_json_dir();
 		if(file_exists('json/projects.json')) {
 			$projects = json_decode(file_get_contents('json/projects.json'), true);
 		}
@@ -33,7 +29,9 @@
 				'name' => 'Example',
 				'description' => 'A simple example.',
 				'link' => 'http://www.skyost.eu',
-				'category' => 0
+				'category' => 0,
+				'projectClicks' => 0,
+				'linkClicks' => 0
 			));
 			file_put_contents('json/projects.json', json_encode($projects));
 		}
@@ -41,9 +39,7 @@
 	}
 
 	function load_settings() {
-		if(!file_exists('json') || !is_dir('json')) {
-			mkdir('json');
-		}
+		check_json_dir();
 		if(file_exists('json/settings.json')) {
 			$settings = json_decode(file_get_contents('json/settings.json'), true);
 			if($settings['configVersion'] < 2) {
@@ -70,6 +66,41 @@
 		return $settings;
 	}
 	
+	function check_json_dir() {
+		if(!file_exists('json') || !is_dir('json')) {
+			mkdir('json');
+		}
+	}
+	
+	function get_project($category, $name) {
+		$projects = load_projects();
+		$categories = load_categories();
+		if(is_numeric($category)) {
+			foreach($projects as $project) {
+				if($project['category'] == $category && $project['name'] == $name) {
+					return $project;
+				}
+			}
+		}
+		else {
+			foreach($projects as $project) {
+				if($categories[$project['category']] == $category && $project['name'] == $name) {
+					return $project;
+				}
+			}
+		}
+	}
+	
+	function get_project_index($project) {
+		$projects = load_projects();
+		for($i = 0; $i < count($projects); $i++) {
+			if($projects[$i] == $project) {
+				return $i;
+			}
+		}
+		return -1;
+	}
+	
 	function delete_cookie($cookie) {
 		unset($_COOKIE[$cookie]);
 		setcookie($cookie, '', time() - 3600);
@@ -89,5 +120,9 @@
 			return true;
 		}
 		return(substr($haystack, -$length) === $needle);
+	}
+	
+	function compare_projects_names($project_a, $project_b) {
+        return strcmp(strtolower($project_a['name']), strtolower($project_b['name']));
 	}
 ?>

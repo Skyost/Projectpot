@@ -45,6 +45,11 @@
 	define('PP_PROJECTS_REMOVE', 'Remove a project');
 	define('PP_PROJECTS_EDIT', 'Edit a project');
 	define('PP_PROJECTS_PROJECT', 'Project');
+	define('PP_STATS', 'Statistics'); //
+	define('PP_STATS_PROJECTSTATS', 'Projects\' statistics');
+	define('PP_STATS_PROJECTSTATS_DESCR', 'Clicks on project\'s description');
+	define('PP_STATS_PROJECTSTATS_LINK', 'Clicks on project\'s link');
+	define('PP_STATS_PROJECT', 'Project');
 	define('PP_ADD', 'Add !');
 	define('PP_REMOVE', 'Remove !');
 	define('PP_UPDATE', 'Update !');
@@ -59,13 +64,14 @@
 	define('PP_MESSAGE_ADFLYCHANGED', 'Successfully changed adf.ly preferences !');
 	define('PP_MESSAGE_CATEGORYADDED', 'Category added !');
 	define('PP_MESSAGE_CATEGORYREMOVED', 'Category removed.');
-	define('PP_MESSAGE_CANNOTREMOVE', 'You cannot delete the last category !');
 	define('PP_MESSAGE_CATEGORYRENAMED', 'Category renamed.');
 	define('PP_MESSAGE_PROJECTADDED', 'Project added !');
 	define('PP_MESSAGE_PROJECTREMOVED', 'Project removed.');
 	define('PP_MESSAGE_PROJECTUPDATED', 'Project updated !');
+	define('PP_MESSAGE_CANNOTREMOVE', 'You cannot delete the last category !');
+	define('PP_MESSAGE_SAMENAMEEXISTS', 'A project with the same name already exists in this category.');
 	
 	// Do not edit this line !
 	
-	define('PP_TRANSLATION_VERSION', 1);
+	define('PP_TRANSLATION_VERSION', 2);
 ?>

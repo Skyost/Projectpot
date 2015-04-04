@@ -32,9 +32,15 @@ $('.btn').click(function() {
 
 $('.a-description').click(function() {
 	// var decoded = $('<textarea/>').html($(this).text()).text();
-	$('#modal-title').text($(this).text());
+	var project = $(this).text();
+	$('#modal-title').text(project);
 	$('#modal-text').html($(this).attr('description'));
 	$('#modal').modal();
+	$.post('stats.php', {
+		stat: 1,
+		category: $(this).attr('category'),
+		project: project
+	});
 });
 
 function resizeContainer() {
