@@ -79,7 +79,7 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li><a target="_blank" href="<?='https://github.com/' . PP_APP_AUTHOR . '/' . PP_APP_NAME?>"><img src="assets/favicon.ico"/> <strong><?=PP_POWEREDBY?></strong></a></li>
+					<li><a target="_blank" href="<?='http://' . PP_APP_AUTHOR . '.github.io/' . PP_APP_NAME?>"><img src="assets/favicon.ico"/> <strong><?=PP_POWEREDBY?></strong></a></li>
 					<li><a href="admin.php"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> <?=PP_ADMIN?></a></li>
 					<?=$settings['adflyUse'] ? '<li><a id="toggle-adfly" href="#"></a></li>' . PHP_EOL : PHP_EOL?>
 				</ul>
