@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	$('.jquery-te').jqte();
-	$('#projects-edit-oldname').change(function() {
+	$('#projects-edit-project').change(function() {
 		updateEditAreas();
 	});
 	$('#statistics-projects-project').change(function() {
@@ -22,8 +22,8 @@ function updateEditAreas() {
 	$('#projects-edit-newname').val(project['name']);
 	$('#projects-edit-newcategory').val(project['category']);
 	$('#projects-edit-newlink').val(project['link']);
-	$('#projects-edit-oldcategory').val(project['name']);
-	$('#projects-edit-oldname').val(project['category']);
+	$('#projects-edit-oldcategory').val(project['category']);
+	$('#projects-edit-oldname').val(project['name']);
 	$('#projects-edit-newdescription').jqteVal(project['description']);
 }
 

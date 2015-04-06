@@ -75,7 +75,6 @@
 				}
 			}
 			else {
-				$
 				$projects[$_POST['project']]['name'] = htmlspecialchars($_POST['name']);
 				$projects[$_POST['project']]['description'] = htmlspecialchars($_POST['description']);
 				$projects[$_POST['project']]['link'] = htmlspecialchars(correct_link($_POST['link']));
@@ -119,6 +118,7 @@
 		if(empty($parsed_url['scheme'])) {
 			return 'http://' . $link;
 		}
+		return $link;
 	}
 	
 	// echo(message('<strong>Be aware !</strong> Characters <strong>are not</strong> escaped. Be cautious about what you enter.', 'alert-warning'));
@@ -339,7 +339,7 @@
 						</div>
 						<input name="method" type="hidden" value="8">
 						<input id="projects-edit-oldcategory" name="old-category" type="hidden">
-						<input id="projects-edit-oldname" name="old-project" type="hidden">
+						<input id="projects-edit-oldname" name="old-name" type="hidden">
 						<button type="submit" class="btn btn-primary"><?=PP_UPDATE?></button>
 					</form>
 				</div>
