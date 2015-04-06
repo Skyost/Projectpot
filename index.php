@@ -57,7 +57,7 @@
 		foreach($projects as $project) {
 			if($project['category'] == $i) {
 				$projects_in_category++;
-				echo '					<tr><td class="a-description" category="' . $i . '" description="' . $project['description'] . '">' . $project['name'] . '</td><td><a target="_blank" href="goto.php?category=' . $i . '&project=' . $project['name'] . '&adfly=' . $adfly . '">' . $project['link'] . '</a></td></tr>' . PHP_EOL;
+				echo '					<tr><td class="a-description" category="' . $i . '" description="' . $project['description'] . '">' . $project['name'] . '</td><td><a target="_blank" href="goto.php?category=' . $i . '&project=' . $project['name'] . '&adfly=' . ($adfly ? 1 : 0) . '">' . $project['link'] . '</a></td></tr>' . PHP_EOL;
 			}
 		}
 		if($projects_in_category++ == 0) {

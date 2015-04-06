@@ -12,7 +12,7 @@
 	if($project == null) {
 		die('Project not valid.');
 	}
-	if(boolval($_GET['adfly'])) {
+	if($_GET['adfly'] == 1) {
 		$settings = load_settings();
 		$link = 'http://adf.ly/' . $settings['adflyId'] . '/' . $project['link'];
 	}
