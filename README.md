@@ -9,8 +9,8 @@ Download the latest release [here](https://github.com/Skyost/Projectpot/releases
 It is strongly advised that you change this as quick as possible (check the file *include\config.php*) !
 
 ## Screenshots
-![interface](http://i.imgur.com/gScA3Ff.png)
-![admin panel](http://i.imgur.com/xZYgO10.png)
+![interface](http://i.imgur.com/1KO4ZVr.png)
+![admin panel](http://i.imgur.com/dzTMkKc.png)
 
 ## Demo
 [Yes sir](http://paste.skyost.eu) (not the admin panel though) !
