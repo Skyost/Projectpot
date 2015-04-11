@@ -381,7 +381,7 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li><a id="update-link" target="_blank" href="<?='https://github.com/' . PP_APP_AUTHOR . '/' . PP_APP_NAME . '/releases'?>"><img src="assets/img/loading.gif"/> <i><?=PP_UPDATE_CHECKING?></i></a></li>
+					<li><a id="update-link" target="_blank" href="<?='https://github.com/' . PP_APP_AUTHOR . '/' . PP_APP_NAME . '/releases'?>"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> <i><?=PP_UPDATE_CHECKING?></i></a></li>
 					<li><a id="logout-link" href="#"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> <?=PP_LOGOUT?></a></li>
 				</ul>
 			</div>
