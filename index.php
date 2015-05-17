@@ -33,7 +33,7 @@
 	<body>
 		<div class="container">
 			<div class="well centered">
-				<?=title($settings['metaTitle'])?>
+				<h1><?=$settings['metaTitle']?></h1>
 			</div>
 		</div>
 		<div class="container">

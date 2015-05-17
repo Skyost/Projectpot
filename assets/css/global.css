@@ -7,8 +7,24 @@ h1 {
 	font-weight: bold;
 }
 
-img.title {
+h1:before {
+	display: inline-block;
+	width: 36px;
 	height: 36px;
+	margin-right: 10px;
+	background: url("../img/HoneyPot.png") no-repeat 0 0;
+	background-size: 100%;
+	content: "";
+}
+
+h1:after {
+	display: inline-block;
+	width: 36px;
+	height: 36px;
+	margin-left: 10px;
+	background: url("../img/HoneyPot.png") no-repeat 0 0;
+	background-size: 100%;
+	content: "";
 }
 
 .centered {

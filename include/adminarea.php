@@ -134,7 +134,7 @@
 		</script>
 		<div class="container">
 			<div class="well centered">
-				<?=title('Admin Area')?>
+				<h1><?=PP_ADMINAREA?></h1>
 			</div>
 		</div>
 		<div class="container">

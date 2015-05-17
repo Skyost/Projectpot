@@ -106,10 +106,6 @@
 		setcookie($cookie, '', time() - 3600);
 	}
 	
-	function title($title) {
-		return '<h1><img class="title" src="assets/img/HoneyPot.png"/> ' . $title . ' <img class="title" src="assets/img/HoneyPot.png"/></h1>' . PHP_EOL;
-	}
-	
 	function message($message, $type) {
 		return '<div class="container alert ' . $type . ' alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' . $message . '</div>' . PHP_EOL;
 	}

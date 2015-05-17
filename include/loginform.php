@@ -1,6 +1,6 @@
 		<div class="container">
 			<div class="well centered">
-				<?=title('Login')?>
+				<h1><?=PP_LOGINPAGE_TITLE?></h1>
 			</div>
 		</div>
 		<div class="container">
