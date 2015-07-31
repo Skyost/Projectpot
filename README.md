@@ -25,3 +25,5 @@ It is strongly advised that you change this as quick as possible (check the file
 - cdnjs (https://cdnjs.com/).
 
 ![logo](https://raw.githubusercontent.com/Skyost/Projectpot/master/assets/img/HoneyPot.png)
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/Skyost/projectpot/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
