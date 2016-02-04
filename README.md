@@ -13,7 +13,7 @@ It is strongly advised that you change this as quick as possible (check the file
 ![admin panel](http://i.imgur.com/dzTMkKc.png)
 
 ## Demo
-[Yes sir](http://paste.skyost.eu) (not the admin panel though) !
+[Yes sir](http://projects.skyost.eu) (not the admin panel though) !
 
 ## Used in this software
 - Bootstrap (http://getbootstrap.com/).
